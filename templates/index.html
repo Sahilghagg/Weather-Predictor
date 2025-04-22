@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Predictor | AI-Powered Forecast</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4bb543;
+            --warning: #f8961e;
+            --danger: #f94144;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: #555;
+        }
+        
+        .weather-form {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .weather-form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #444;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="logo">
+                <i class="fas fa-cloud-sun"></i>
+                <span>WeatherAI</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <section class="hero">
+            <h1>AI-Powered Weather Prediction</h1>
+            <p>Get accurate weather forecasts powered by machine learning algorithms. Our system analyzes multiple atmospheric parameters to predict future weather conditions with high precision.</p>
+        </section>
+        
+        <form class="weather-form" method="POST" action="/predict">
+            <div class="form-group">
+                <label for="maxtempC">Max Temperature (°C)</label>
+                <input type="number" step="any" class="form-control" id="maxtempC" name="maxtempC" placeholder="Enter maximum temperature" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="mintempC">Min Temperature (°C)</label>
+                <input type="number" step="any" class="form-control" id="mintempC" name="mintempC" placeholder="Enter minimum temperature" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="cloudcover">Cloud Cover (%)</label>
+                <input type="number" step="any" class="form-control" id="cloudcover" name="cloudcover" placeholder="Enter cloud cover percentage" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="sunHour">Sun Hours</label>
+                <input type="number" step="any" class="form-control" id="sunHour" name="sunHour" placeholder="Enter sun hours" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="HeatIndexC">Heat Index (°C)</label>
+                <input type="number" step="any" class="form-control" id="HeatIndexC" name="HeatIndexC" placeholder="Enter heat index" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="precipMM">Precipitation (mm)</label>
+                <input type="number" step="any" class="form-control" id="precipMM" name="precipMM" placeholder="Enter precipitation in mm" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="pressure">Pressure (mb)</label>
+                <input type="number" step="any" class="form-control" id="pressure" name="pressure" placeholder="Enter atmospheric pressure" required>
+            </div>
+            
+            <button type="submit" class="btn btn-block">
+                <i class="fas fa-cloud-sun-rain"></i> Predict Weather
+            </button>
+        </form>
+        
+        <div class="features">
+            <div class="feature-card">
+                <i class="fas fa-brain"></i>
+                <h3>AI-Powered</h3>
+                <p>Our advanced machine learning models analyze historical patterns to deliver the most accurate forecasts.</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-sliders-h"></i>
+                <h3>Multiple Parameters</h3>
+                <p>We consider temperature, humidity, pressure, and more for comprehensive weather analysis.</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Real-time Updates</h3>
+                <p>Our system continuously learns from new data to improve prediction accuracy over time.</p>
+            </div>
+        </div>
+    </div>
+    <div class="extra-info" style="margin-top: 30px; text-align: center;">
+        <p style="font-size: 16px;">
+            Want all weather parameters? Check this link:<br>
+            <a href="https://www.timeanddate.com/weather/india/mumbai" target="_blank" style="color: #007bff; font-weight: bold;">
+                🌐 Time and Date Mumbai Weather
+            </a>
+        </p>
+    </div>
+    
+</body>
+</html>
